@@ -17,20 +17,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private val randomStrings = ArrayList<String>()
-
-    private fun populateList(){
-        randomStrings.add("one")
-        randomStrings.add("two")
-        randomStrings.add("three")
-    }
-
+    private val listOfComics = ArrayList<XKCDDataClass>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        populateList()
 
         val queue = Volley.newRequestQueue(this)
         val url = "https://xkcd.com/1000/info.0.json"
@@ -38,20 +29,16 @@ class MainActivity : AppCompatActivity() {
         val stringRequest = StringRequest(Request.Method.GET, url,
             Response.Listener { response ->
 
-                var gson = Gson()
-                var testModel = gson.fromJson(response, XKCDDataClass::class.java)
-
+                val gson = Gson()
+                val testModel = gson.fromJson(response, XKCDDataClass::class.java)
+                listOfComics.add(testModel)
                 Log.e("SPARTAAAA", testModel.img)
             },
             Response.ErrorListener { Log.e("TROJAAAAAA", "Cause Sparta FTW!") })
-
-
         queue.add(stringRequest)
 
-
         viewManager = LinearLayoutManager(this)
-        viewAdapter = XKCDRecyclerAdapter(randomStrings)
-
+        viewAdapter = XKCDRecyclerAdapter(listOfComics)
         recyclerView = findViewById<RecyclerView>(R.id.xkcdRecyclerView).apply {
 
             setHasFixedSize(true)

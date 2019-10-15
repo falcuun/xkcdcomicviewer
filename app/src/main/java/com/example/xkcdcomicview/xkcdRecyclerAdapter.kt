@@ -3,10 +3,12 @@ package com.example.xkcdcomicview
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
-class XKCDRecyclerAdapter(private val XKCDComics: ArrayList<String>) :
+class XKCDRecyclerAdapter(private val XKCDComics: ArrayList<XKCDDataClass>) :
             RecyclerView.Adapter<XKCDRecyclerAdapter.XKCDViewHolder>() {
 
 
@@ -24,13 +26,15 @@ class XKCDRecyclerAdapter(private val XKCDComics: ArrayList<String>) :
     }
 
     override fun onBindViewHolder(holder: XKCDViewHolder, position: Int) {
-        holder.testString.text = XKCDComics[position]
+        holder.testString.text = XKCDComics[position].img
+        Picasso.get().load(XKCDComics[position].img).into(holder.xkcdComicImage)
     }
 
     override fun getItemCount() = XKCDComics.size
 
     class XKCDViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var testString : TextView = view.findViewById(R.id.textView)
+        var xkcdComicImage : ImageView = view.findViewById(R.id.xkcdComicImage)
 
     }
 }
