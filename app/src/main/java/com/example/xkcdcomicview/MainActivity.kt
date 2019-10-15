@@ -2,8 +2,14 @@ package com.example.xkcdcomicview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import java.io.StringReader
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,16 +17,34 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    private val randomStrings = ArrayList<String>()
+
+    private fun populateList(){
+        randomStrings.add("one")
+        randomStrings.add("two")
+        randomStrings.add("three")
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        populateList()
 
-        val randomStrings = ArrayList<String>()
-        randomStrings.add("one")
-        randomStrings.add("two")
-        randomStrings.add("three")
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://xkcd.com/1000/info.0.json"
+
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            Response.Listener { response ->
+                Log.e("SPARTAAAA", response)
+            },
+            Response.ErrorListener { Log.e("TROJAAAAAA", "Cause Sparta FTW!") })
+
+
+        queue.add(stringRequest)
+
+
         viewManager = LinearLayoutManager(this)
         viewAdapter = XKCDRecyclerAdapter(randomStrings)
 
@@ -34,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+
 /*
 - browse through the comics,
 - see the comic details, including its description,
