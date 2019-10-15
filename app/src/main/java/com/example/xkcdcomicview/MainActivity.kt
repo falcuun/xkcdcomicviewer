@@ -9,7 +9,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import java.io.StringReader
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,7 +37,11 @@ class MainActivity : AppCompatActivity() {
 
         val stringRequest = StringRequest(Request.Method.GET, url,
             Response.Listener { response ->
-                Log.e("SPARTAAAA", response)
+
+                var gson = Gson()
+                var testModel = gson.fromJson(response, XKCDDataClass::class.java)
+
+                Log.e("SPARTAAAA", testModel.img)
             },
             Response.ErrorListener { Log.e("TROJAAAAAA", "Cause Sparta FTW!") })
 
