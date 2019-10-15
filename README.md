@@ -1,4 +1,4 @@
-# XKdoaskcsmdf Comi Viwer! 
+# XKdoaskcsmdf Comic Viwer! 
 
 This will Be a Thing used to view things, by things.
 
