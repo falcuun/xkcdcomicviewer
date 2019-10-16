@@ -8,8 +8,6 @@ import com.google.gson.Gson
 import android.os.Environment
 import java.io.*
 
-
-
 class FavoriteComics : AppCompatActivity() {
 
 
@@ -28,9 +26,9 @@ class FavoriteComics : AppCompatActivity() {
 
         listOfComicNames.forEach {
             val filename = it
-            var fileInputStream: FileInputStream?
+            val fileInputStream: FileInputStream?
             fileInputStream = openFileInput(filename)
-            var inputStreamReader = InputStreamReader(fileInputStream)
+            val inputStreamReader = InputStreamReader(fileInputStream)
             val bufferedReader = BufferedReader(inputStreamReader)
             val stringBuilder: StringBuilder = StringBuilder()
             var text: String? = null

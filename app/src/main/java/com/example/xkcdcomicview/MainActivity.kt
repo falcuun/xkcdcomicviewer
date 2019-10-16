@@ -137,7 +137,6 @@ class MainActivity : AppCompatActivity() {
 
         xkcdOpenFavoriteComics.setOnClickListener{
             val favoriteComics = Intent(this@MainActivity, FavoriteComics::class.java)
-            favoriteComics.putExtra("lol", xkcdCurrentComic.title)
             startActivity(favoriteComics)
         }
 
