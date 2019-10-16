@@ -30,8 +30,7 @@ Current State of the application:
     - Acessing Features: 
       - Search: Search appears in top right corner of the app, in the toolbar, tap it, and type the number of the comic you want to look at (Don't type 404 - Trust me, it's empty)
       - Explanation: To access the explanation, all you have to do is tap the far left button in the footer (Well, not really a footer, but it's on the bottom) of the application
-      - Favorite a Comic: Right next to the explanation, to the right, there is a Star icon button that when you tap, magic happens. 
-This Button adds the currently shown comic to your favorites list
+      - Favorite a Comic: Right next to the explanation, to the right, there is a Star icon button that when you tap, magic happens This Button adds the currently shown comic to your favorites list
       - Favorite Gallery: Right next to the star sits a gallery button that allows you to view your favorite comics, it even works while you're offline! How cool is that?!
       - Last but not least - Share: To share the comic you're currently viewing, just tap the share icon that is the last in the array   of icons! It will take you to the screen where you can pick your best friend to share the comic with!
       
