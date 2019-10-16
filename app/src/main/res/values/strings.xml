@@ -5,4 +5,5 @@
     <string name="next_comic">Next&gt; </string>
     <string name="latest_comic">&gt;| </string>
     <string name="Random_comic">Random</string>
+    <string name="explanation_title">Explanation:</string>
 </resources>
