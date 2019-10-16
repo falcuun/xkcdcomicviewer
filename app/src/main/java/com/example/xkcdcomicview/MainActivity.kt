@@ -262,9 +262,10 @@ class MainActivity : AppCompatActivity() {
     private fun xkcdGetExplanation(explainxkcdURL: String?, requestCode: Int) {
         val nextRequest = StringRequest(Request.Method.GET, explainxkcdURL,
             Response.Listener { response ->
+                if(response.contains("==Explanation==")){
                 xkcdExplanationString = response
                     .substring(
-                        response.indexOf("==Explanation==") + 15,
+                        response.indexOf("==Explanation==") +3,
                         response.indexOf("==Transcript==")
                     )
                     .replace("\\n", "\n")
@@ -273,6 +274,9 @@ class MainActivity : AppCompatActivity() {
 
                 if (requestCode == OPEN_EXPLANATION_ACTIVITY_REQUEST_CODE) {
                     xkcdOpenExplanationActivity(xkcdExplanationString)
+                }
+                }else {
+                    Toast.makeText(this@MainActivity, "Explanation Does not Yet exist for this comic", Toast.LENGTH_LONG).show()
                 }
             },
             Response.ErrorListener { Log.e(ERROR_TAG, "Error Making Request") })
@@ -377,7 +381,7 @@ class MainActivity : AppCompatActivity() {
 - search for comics by the comic number as well as text ---------- x
 - get the comic explanation -------------------------------------- X
 - favorite the comics, which would be available offline too ------ X
-- send comics to others,
+- send comics to others ------------------------------------------ X
 - get notifications when a new comic is published,
 - support multiple form factors.
  */
