@@ -146,6 +146,14 @@
                     android:minWidth="0dp"
                     style="@style/xkcdButtonsStyle"
                     android:src="@android:drawable/ic_menu_gallery"/>
+                <ImageButton
+                    android:id="@+id/xkcdShareComic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="0dp"
+                    style="@style/xkcdButtonsStyle"
+                    android:src="@android:drawable/ic_menu_share"/>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

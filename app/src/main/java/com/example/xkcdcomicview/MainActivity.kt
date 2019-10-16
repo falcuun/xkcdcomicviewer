@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var xkcdOpenExplanation: ImageButton
     lateinit var xkcdFavoriteButton: ImageButton
     lateinit var xkcdOpenFavoriteComics: ImageButton
+    lateinit var xkcdShareComic: ImageButton
 
 
     private fun initComponents() {
@@ -116,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         xkcdOpenExplanation = findViewById(R.id.xkcdOpenExplanation)
         xkcdFavoriteButton = findViewById(R.id.xkcdFavoriteButton)
         xkcdOpenFavoriteComics = findViewById(R.id.xkcdOpenFavoriteComics)
-
+        xkcdShareComic = findViewById(R.id.xkcdShareComic)
 
         queue = Volley.newRequestQueue(this)
     }
@@ -231,6 +232,17 @@ class MainActivity : AppCompatActivity() {
                 xkcdTitleView.text = xkcdCurrentComic.title
                 xkcdDescriptionView.text = xkcdCurrentComic.alt
                 xkcdGetExplanation(xkcdExplanationxkcdURL, 2)
+
+                xkcdShareComic.setOnClickListener{
+                    val sendIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, "https://xkcd.com/${xkcdCurrentComic.num}")
+                        type = "text/plain"
+                    }
+
+                    val shareIntent = Intent.createChooser(sendIntent, null)
+                    startActivity(shareIntent)
+                }
             },
             Response.ErrorListener {
                 when (it.networkResponse.statusCode) {
@@ -364,7 +376,7 @@ class MainActivity : AppCompatActivity() {
 - see the comic details, including its description --------------- X
 - search for comics by the comic number as well as text ---------- x
 - get the comic explanation -------------------------------------- X
-- favorite the comics, which would be available offline too ------
+- favorite the comics, which would be available offline too ------ X
 - send comics to others,
 - get notifications when a new comic is published,
 - support multiple form factors.
