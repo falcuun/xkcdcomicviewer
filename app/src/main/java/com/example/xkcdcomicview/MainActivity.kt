@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
     private fun requestStoragePermission(){
         if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this@MainActivity,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), GRANT_STORAGE_PERMISSION_CODE)
+            ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), GRANT_STORAGE_PERMISSION_CODE)
         }
     }
 

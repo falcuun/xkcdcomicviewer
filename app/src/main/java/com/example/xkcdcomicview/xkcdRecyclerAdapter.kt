@@ -13,7 +13,6 @@ import android.graphics.Bitmap
 import android.widget.LinearLayout
 import java.io.ByteArrayInputStream
 
-
 class XKCDRecyclerAdapter(private val XKCDComics: ArrayList<XKCDMinimalSaveToFile>, private val context: Context) :
             RecyclerView.Adapter<XKCDRecyclerAdapter.XKCDViewHolder>() {
 
@@ -30,7 +29,7 @@ class XKCDRecyclerAdapter(private val XKCDComics: ArrayList<XKCDMinimalSaveToFil
 
         return XKCDViewHolder(textView)
     }
-    
+
     override fun onBindViewHolder(holder: XKCDViewHolder, position: Int) {
         holder.xkcdFavoriteTitle.text = XKCDComics[position].title.replace("_", " ")
         holder.xkcdFavoriteComicImage.setImageBitmap(byteArrayToBitmap(XKCDComics[position].imagebytearray))

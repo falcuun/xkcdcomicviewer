@@ -6,5 +6,9 @@
     <string name="latest_comic">&gt;| </string>
     <string name="Random_comic">Random</string>
     <string name="explanation_title">Explanation:</string>
-    <string name="four_o_four">404:</string>
+    <string name="four_o_four">404</string>
+    <string name="explanation">Explanation:</string>
+    <string name="save">Save:</string>
+    <string name="gallery">Gallery:</string>
+    <string name="share">Share:</string>
 </resources>
