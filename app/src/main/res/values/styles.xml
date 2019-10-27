@@ -12,6 +12,10 @@
         <item name="android:background">#6e7b91</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:minHeight">0dp</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="xkcdActionButtonsStyle">
+        <item name="android:background">#CDD1D6</item>
+    </style>
 </resources>
