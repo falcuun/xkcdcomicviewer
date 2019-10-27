@@ -1,7 +1,7 @@
 
 # XKdoaskcsmdf Comic Viwer! 
 
-This will Be a Thing used to view things, by things.
+This will Be a Thing used to view things, by doing things.
 
 Current State of the application:
   XKCD-Comic Viewer currently offers these features:
@@ -19,7 +19,6 @@ Current State of the application:
    - Navigate Comics by swiping
    - Search by Text
    - Fetch other info from the XKCD website such as: What if? Blag, How to... etc.
-   - Ability to share comics even with your worst enemy (Hey, we all deserve to have fun)
    - A pretty printed Explanation that gets rid of the links and whatnot used by Wikipedia to format their texts
    - Zoom-in
     
