@@ -126,10 +126,18 @@ class MainActivity : AppCompatActivity() {
         queue = Volley.newRequestQueue(this)
     }
 
-    private fun requestStoragePermission(){
-        if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), GRANT_STORAGE_PERMISSION_CODE)
+    private fun requestStoragePermission() {
+        if (ContextCompat.checkSelfPermission(
+                this@MainActivity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@MainActivity,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                GRANT_STORAGE_PERMISSION_CODE
+            )
         }
     }
 
@@ -139,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         initComponents()
         requestStoragePermission()
 
-        xkcdOpenFavoriteComics.setOnClickListener{
+        xkcdOpenFavoriteComics.setOnClickListener {
             val favoriteComics = Intent(this@MainActivity, FavoriteComics::class.java)
             startActivity(favoriteComics)
         }
@@ -172,38 +180,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun assignButtonListeners() {
         xkcdNextComic.setOnClickListener {
-            if (xkcdComicNumber == xkcdCurrentMaxNumber) {
-                xkcdComicNumber = 0
-            }
-            xkcdComicNumber++
-            xkcdURL = "https://xkcd.com/${xkcdComicNumber}/info.0.json"
-            xkcdQueryComic(xkcdURL)
+            xkcdSearchNextComic()
         }
 
         xkcdPreviousComic.setOnClickListener {
-            if (xkcdComicNumber == 1) {
-                xkcdComicNumber = xkcdCurrentMaxNumber + 1
-            }
-            xkcdComicNumber--
-            xkcdURL = "https://xkcd.com/${xkcdComicNumber}/info.0.json"
-            xkcdQueryComic(xkcdURL)
+            xkcdSearchPreviousComic()
         }
 
         xkcdRandomComic.setOnClickListener {
-            xkcdComicNumber = Random(System.currentTimeMillis()).nextInt(1, xkcdCurrentMaxNumber)
-            xkcdURL = "https://xkcd.com/${xkcdComicNumber}/info.0.json"
-            xkcdQueryComic(xkcdURL)
+            xkcdSearchRandomComic()
         }
 
         xkcdFirstComic.setOnClickListener {
-            xkcdComicNumber = 1
-            xkcdURL = "https://xkcd.com/${xkcdComicNumber}/info.0.json"
-            xkcdQueryComic(xkcdURL)
+            xkcdSearchFirstComic()
         }
         xkcdLatestComic.setOnClickListener {
-            xkcdComicNumber = xkcdCurrentMaxNumber
-            xkcdURL = "https://xkcd.com/${xkcdCurrentMaxNumber}/info.0.json"
-            xkcdQueryComic(xkcdControlComicxkcdURL)
+            xkcdSearchLatestComic()
         }
 
         xkcdOpenExplanation.setOnClickListener {
@@ -211,12 +203,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         xkcdFavoriteButton.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this@MainActivity, "Comic Successfully saved!", Toast.LENGTH_LONG).show()
+            if (ContextCompat.checkSelfPermission(
+                    this@MainActivity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                Toast.makeText(this@MainActivity, "Comic Successfully saved!", Toast.LENGTH_LONG)
+                    .show()
                 xkcdSaveFavoriteComic(xkcdCurrentComic)
             } else {
-                Toast.makeText(this@MainActivity, "You need to grant storage Permission to do that", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "You need to grant storage Permission to do that",
+                    Toast.LENGTH_LONG
+                ).show()
                 requestStoragePermission()
             }
         }
@@ -236,7 +236,7 @@ class MainActivity : AppCompatActivity() {
                 xkcdDescriptionView.text = xkcdCurrentComic.alt
                 xkcdGetExplanation(xkcdExplanationxkcdURL, 2)
 
-                xkcdShareComic.setOnClickListener{
+                xkcdShareComic.setOnClickListener {
                     val sendIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
                         putExtra(Intent.EXTRA_TEXT, "https://xkcd.com/${xkcdCurrentComic.num}")
@@ -265,21 +265,25 @@ class MainActivity : AppCompatActivity() {
     private fun xkcdGetExplanation(explainxkcdURL: String?, requestCode: Int) {
         val nextRequest = StringRequest(Request.Method.GET, explainxkcdURL,
             Response.Listener { response ->
-                if(response.contains("==Explanation==")){
-                xkcdExplanationString = response
-                    .substring(
-                        response.indexOf("==Explanation==") + 2,
-                        response.indexOf("==Transcript==")
-                    )
-                    .replace("\\n", "\n")
-                    .replace("\\", "")
-                    .replace(Regex(Pattern.quote("{[a-zA-Z][0-9][\\s]}")), " ")
+                if (response.contains("==Explanation==")) {
+                    xkcdExplanationString = response
+                        .substring(
+                            response.indexOf("==Explanation==") + 2,
+                            response.indexOf("==Transcript==")
+                        )
+                        .replace("\\n", "\n")
+                        .replace("\\", "")
+                        .replace(Regex(Pattern.quote("{[a-zA-Z][0-9][\\s]}")), " ")
 
-                if (requestCode == OPEN_EXPLANATION_ACTIVITY_REQUEST_CODE) {
-                    xkcdOpenExplanationActivity(xkcdExplanationString)
-                }
-                }else {
-                    Toast.makeText(this@MainActivity, "Explanation Does not Yet exist for this comic", Toast.LENGTH_LONG).show()
+                    if (requestCode == OPEN_EXPLANATION_ACTIVITY_REQUEST_CODE) {
+                        xkcdOpenExplanationActivity(xkcdExplanationString)
+                    }
+                } else {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Explanation Does not Yet exist for this comic",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             },
             Response.ErrorListener { Log.e(ERROR_TAG, "Error Making Request") })
@@ -305,20 +309,62 @@ class MainActivity : AppCompatActivity() {
         )
 
         val filename = "${xkcdComic.title.replace(" ", "_")}.json"
-        val fileContents =  gson.toJson(xkcdMin)
+        val fileContents = gson.toJson(xkcdMin)
         openFileOutput(filename, Context.MODE_PRIVATE).use {
             it.write(fileContents.toByteArray())
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    private fun xkcdSearchNextComic() {
+        if (xkcdComicNumber == xkcdCurrentMaxNumber) {
+            xkcdComicNumber = 0
+        }
+        xkcdComicNumber++
+        xkcdURL = "https://xkcd.com/${xkcdComicNumber}/info.0.json"
+        xkcdQueryComic(xkcdURL)
+    }
+
+    private fun xkcdSearchPreviousComic() {
+        if (xkcdComicNumber == 1) {
+            xkcdComicNumber = xkcdCurrentMaxNumber + 1
+        }
+        xkcdComicNumber--
+        xkcdURL = "https://xkcd.com/${xkcdComicNumber}/info.0.json"
+        xkcdQueryComic(xkcdURL)
+    }
+
+    private fun xkcdSearchRandomComic() {
+        xkcdComicNumber = Random(System.currentTimeMillis()).nextInt(1, xkcdCurrentMaxNumber)
+        xkcdURL = "https://xkcd.com/${xkcdComicNumber}/info.0.json"
+        xkcdQueryComic(xkcdURL)
+    }
+
+    private fun xkcdSearchFirstComic() {
+        xkcdComicNumber = 1
+        xkcdURL = "https://xkcd.com/${xkcdComicNumber}/info.0.json"
+        xkcdQueryComic(xkcdURL)
+    }
+
+    private fun xkcdSearchLatestComic() {
+        xkcdComicNumber = xkcdCurrentMaxNumber
+        xkcdURL = "https://xkcd.com/${xkcdCurrentMaxNumber}/info.0.json"
+        xkcdQueryComic(xkcdControlComicxkcdURL)
+    }
+    
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
         when (requestCode) {
             GRANT_STORAGE_PERMISSION_CODE -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Permission to write to storage was denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Permission to write to storage was denied",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 return
             }
