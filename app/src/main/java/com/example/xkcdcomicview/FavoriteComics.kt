@@ -38,7 +38,7 @@ class FavoriteComics : AppCompatActivity() {
         }
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = XKCDRecyclerAdapter(listOfComics)
+        viewAdapter = XKCDRecyclerAdapter(listOfComics, this@FavoriteComics)
         recyclerView = findViewById<RecyclerView>(R.id.xkcdRecyclerView).apply {
             setHasFixedSize(true)
             layoutManager = viewManager

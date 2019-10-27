@@ -253,8 +253,8 @@ class MainActivity : AppCompatActivity() {
                         Picasso.get()
                             .load("https://st2.depositphotos.com/7023650/9863/v/950/depositphotos_98631012-stock-illustration-404-error-page-not-found.jpg")
                             .into(xkcdComicView)
-                        xkcdTitleView.text = "404"
-                        xkcdDescriptionView.text = "404"
+                        xkcdTitleView.text = getString(R.string.four_o_four)
+                        xkcdDescriptionView.text = getString(R.string.four_o_four)
                     }
                 }
                 Log.e(ERROR_TAG, "Error Making Request")
@@ -268,7 +268,7 @@ class MainActivity : AppCompatActivity() {
                 if(response.contains("==Explanation==")){
                 xkcdExplanationString = response
                     .substring(
-                        response.indexOf("==Explanation==") +3,
+                        response.indexOf("==Explanation==") + 2,
                         response.indexOf("==Transcript==")
                     )
                     .replace("\\n", "\n")
@@ -368,7 +368,6 @@ class MainActivity : AppCompatActivity() {
             ).show()
             exit = true
             Handler().postDelayed({ exit = false }, 3 * 1000)
-
         }
     }
 }
