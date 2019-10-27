@@ -10,8 +10,6 @@ import java.io.*
 
 class FavoriteComics : AppCompatActivity() {
 
-
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -46,14 +44,12 @@ class FavoriteComics : AppCompatActivity() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
-        //listOfComics.add(testModel)
     }
     private fun listExternalStorage() {
         val state = Environment.getExternalStorageState()
 
         if (Environment.MEDIA_MOUNTED == state || Environment.MEDIA_MOUNTED_READ_ONLY == state) {
             listFiles(File(this.filesDir.path))
-            // PATH: "/data/user/0/com.example.xkcdcomicview/files/"
         }
     }
     private fun listFiles(directory: File) {

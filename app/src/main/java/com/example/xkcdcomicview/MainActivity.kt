@@ -28,23 +28,17 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileWriter
-
 
 class MainActivity : AppCompatActivity() {
 
     /**
      * ERROR_TAG - Tag that will be used for Main Activity Errors in Log.e for debugging
-     * EXPLANATION_TEXT_INTENT_TAG - Tag that will be used for opening Explanation View Activity
-     * SAFE_xkcdURL_TAG - Tag that is used to fetch xkcdURL from Shared Preferences
-     * SAFE_xkcdNUM_TAG - Tag that is used to fetch xkcdNUM from Shared Preferences
+     * OPEN_EXPLANATION_ACTIVITY_REQUEST_CODE - Code that is used to Open explanation activity
+     * GRANT_STORAGE_PERMISSION_CODE - Code that will be used for requesting Storage permission
      */
     private val ERROR_TAG = "Main_Activity_Error"
-    private val SAFE_xkcdURL_TAG = "SAFExkcdURL"
-    private val SAFE_xkcdNUM_TAG = "SAFExkcdNUM"
-    private val INSTANCE_SAVED_TAG = "InstanceSaved"
     private val OPEN_EXPLANATION_ACTIVITY_REQUEST_CODE = 1
+    private val GRANT_STORAGE_PERMISSION_CODE = 1
 
     companion object {
         val EXPLANATION_TEXT_INTENT_TAG = "explanation_text"
@@ -63,6 +57,11 @@ class MainActivity : AppCompatActivity() {
      */
     private val gson = Gson()
 
+    /**
+     * queue - RequestQueue that will be used to send requests to the API
+     * xkcdCurrentComic - Data class that is used to store comic data
+     * xkcdExplanationString - A damn long string that will be the Explanation
+     */
     lateinit var queue: RequestQueue
     lateinit var xkcdCurrentComic: XKCDDataClass
     lateinit var xkcdExplanationString: String
@@ -90,6 +89,11 @@ class MainActivity : AppCompatActivity() {
      * xkcdLatestComic - Queries API for the latest comic with no id (By default returns latest one)
      * xkcdComicView - ImageView that will display the comic in Main Activity
      * xkcdTitleView - TextView that will display the comic title above the comic itself
+     * xkcdDescriptionView - TextView that will display the comic description
+     * xkcdOpenExplanation - ImageButton that opens the new Activity Displaying the Explanation of the comic
+     * xkcdFavoriteButton - ImageButton that will add the current comic to the favorites for offline viewing
+     * xkcdOpenFavoriteComics - ImageButton that will open the 'library' with all the favorite comics
+     * xkcdShareComic - ImageButton that will open the share intent that will copy the link and feed it to other applications
      */
     lateinit var xkcdNextComic: Button
     lateinit var xkcdPreviousComic: Button
@@ -125,7 +129,7 @@ class MainActivity : AppCompatActivity() {
     private fun requestStoragePermission(){
         if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this@MainActivity,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),1)
+            ActivityCompat.requestPermissions(this@MainActivity,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), GRANT_STORAGE_PERMISSION_CODE)
         }
     }
 
@@ -310,8 +314,7 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            1 -> {
-                // If request is cancelled, the result arrays are empty.
+            GRANT_STORAGE_PERMISSION_CODE -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show()
                 } else {
@@ -319,9 +322,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 return
             }
-
-            // Add other 'when' lines to check for other
-            // permissions this app might request.
             else -> {
                 // Ignore all other requests.
             }
